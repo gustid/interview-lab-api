@@ -117,4 +117,29 @@ export class CandidatesRepository {
       })
       .delete();
   }
+
+  async findById(
+    id: string,
+    ownerId: string,
+  ): Promise<CandidateRecord | undefined> {
+    return this.databaseService
+      .knex<CandidateRecord>('candidates')
+      .select(
+        'id',
+        'created_by',
+        'first_name',
+        'last_name',
+        'email',
+        'role',
+        'resume_url',
+        'notes',
+        'created_at',
+        'updated_at',
+      )
+      .where({
+        id,
+        created_by: ownerId,
+      })
+      .first();
+  }
 }

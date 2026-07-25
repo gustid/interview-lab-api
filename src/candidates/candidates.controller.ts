@@ -62,4 +62,12 @@ export class CandidatesController {
   ): Promise<void> {
     return this.candidatesService.delete(user.id, id);
   }
+
+  @Get(':id')
+  findById(
+    @CurrentUser() user: RegisteredUser,
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<CandidateResponse> {
+    return this.candidatesService.findById(user.id, id);
+  }
 }

@@ -116,6 +116,16 @@ export class CandidatesService {
     }
   }
 
+  async findById(ownerId: string, id: string): Promise<CandidateResponse> {
+    const candidate = await this.candidatesRepository.findById(id, ownerId);
+
+    if (!candidate) {
+      throw new NotFoundException('Candidate was not found');
+    }
+
+    return this.toResponse(candidate);
+  }
+
   private toResponse(candidate: CandidateRecord): CandidateResponse {
     return {
       id: candidate.id,
