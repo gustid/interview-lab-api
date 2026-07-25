@@ -5,6 +5,7 @@ import { environmentValidationSchema } from './config/environment.validation';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { CandidatesModule } from './candidates/candidates.module';
+import { InterviewsModule } from './interviews/interviews.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { CandidatesModule } from './candidates/candidates.module';
     UsersModule,
     AuthModule,
     CandidatesModule,
+    InterviewsModule,
   ],
   controllers: [],
   providers: [],
