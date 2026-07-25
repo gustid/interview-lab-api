@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { DatabaseModule } from './database/database.module';
 import { ConfigModule } from '@nestjs/config';
 import { environmentValidationSchema } from './config/environment.validation';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { environmentValidationSchema } from './config/environment.validation';
       },
     }),
     DatabaseModule,
+    UsersModule,
   ],
   controllers: [],
   providers: [],
