@@ -18,4 +18,6 @@ export const environmentValidationSchema = Joi.object({
       scheme: ['postgres', 'postgresql'],
     })
     .optional(),
+
+  JWT_SECRET: Joi.string().min(32).required(),
 });
