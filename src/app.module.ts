@@ -6,6 +6,7 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { CandidatesModule } from './candidates/candidates.module';
 import { InterviewsModule } from './interviews/interviews.module';
+import { FeedbackModule } from './feedback/feedback.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { InterviewsModule } from './interviews/interviews.module';
     AuthModule,
     CandidatesModule,
     InterviewsModule,
+    FeedbackModule,
   ],
   controllers: [],
   providers: [],
