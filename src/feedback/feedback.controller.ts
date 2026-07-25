@@ -8,6 +8,7 @@ import {
   Put,
   UseGuards,
 } from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import type { RegisteredUser } from '../auth/auth.types';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
@@ -16,6 +17,8 @@ import { UpdateFeedbackDto } from './dto/update-feedback.dto';
 import type { FeedbackResponse } from './feedback.types';
 import { FeedbackService } from './feedback.service';
 
+@ApiTags('Feedback')
+@ApiBearerAuth('access-token')
 @Controller('api/interviews/:interviewId/feedback')
 @UseGuards(JwtAuthGuard)
 export class FeedbackController {

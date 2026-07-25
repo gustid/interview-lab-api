@@ -12,6 +12,7 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import type { RegisteredUser } from '../auth/auth.types';
@@ -24,6 +25,8 @@ import { CreateCandidateDto } from './dto/create-candidate.dto';
 import { ListCandidatesQueryDto } from './dto/list-candidates-query.dto';
 import { UpdateCandidateDto } from './dto/update-candidate.dto';
 
+@ApiTags('Candidates')
+@ApiBearerAuth('access-token')
 @Controller('api/candidates')
 @UseGuards(JwtAuthGuard)
 export class CandidatesController {

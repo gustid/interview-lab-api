@@ -12,6 +12,7 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import type { RegisteredUser } from '../auth/auth.types';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
@@ -24,6 +25,8 @@ import type {
 } from './interview.types';
 import { InterviewsService } from './interviews.service';
 
+@ApiTags('Interviews')
+@ApiBearerAuth('access-token')
 @Controller('api/interviews')
 @UseGuards(JwtAuthGuard)
 export class InterviewsController {
