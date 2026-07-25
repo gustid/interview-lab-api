@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { environmentValidationSchema } from './config/environment.validation';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { CandidatesModule } from './candidates/candidates.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { AuthModule } from './auth/auth.module';
     DatabaseModule,
     UsersModule,
     AuthModule,
+    CandidatesModule,
   ],
   controllers: [],
   providers: [],
