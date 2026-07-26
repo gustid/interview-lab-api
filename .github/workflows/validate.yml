@@ -10,6 +10,23 @@ jobs:
   validate:
     name: Format, lint, test and build
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_USER: interview_lab
+          POSTGRES_PASSWORD: interview_lab
+          POSTGRES_DB: interview_lab_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U interview_lab -d interview_lab_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    env:
+      TEST_DATABASE_URL: postgresql://interview_lab:interview_lab@localhost:5432/interview_lab_test
 
     steps:
       - name: Checkout
@@ -31,7 +48,10 @@ jobs:
         run: npm run lint:check
 
       - name: Run unit tests
-        run: npm test -- --runInBand --passWithNoTests
+        run: npm test -- --runInBand
+
+      - name: Run end-to-end tests
+        run: npm run test:e2e -- --runInBand
 
       - name: Build application
         run: npm run build

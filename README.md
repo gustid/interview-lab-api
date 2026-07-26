@@ -324,13 +324,57 @@ Build the application:
 npm run build
 ```
 
-Run tests:
+Run the fast service-level unit tests:
 
 ```bash
 npm test
-npm run test:e2e
 npm run test:cov
 ```
+
+### Run end-to-end tests locally
+
+The end-to-end test uses a real PostgreSQL database. Keep it separate from the
+development database because the test deletes its data before and after the
+test run.
+
+First, make sure the Docker PostgreSQL service is running:
+
+```bash
+docker compose up -d postgres
+```
+
+Create the test database inside the running PostgreSQL container:
+
+```bash
+docker compose exec postgres createdb \
+  -U interview_lab \
+  interview_lab_test
+```
+
+This database only needs to be created once. If PostgreSQL reports that
+`interview_lab_test` already exists, continue to the next command.
+
+Run the end-to-end test with its connection URL:
+
+```bash
+TEST_DATABASE_URL=postgresql://interview_lab:interview_lab_dev@localhost:5432/interview_lab_test \
+npm run test:e2e
+```
+
+The test runs the Knex migrations automatically. As a safety measure, it
+refuses to use a database whose name does not end in `_test`.
+
+To run the test serially, matching CI:
+
+```bash
+TEST_DATABASE_URL=postgresql://interview_lab:interview_lab_dev@localhost:5432/interview_lab_test \
+npm run test:e2e -- --runInBand
+```
+
+The end-to-end journey covers registration, login, candidate and interview
+creation, ownership isolation, interview completion, and feedback creation.
+GitHub Actions creates an isolated PostgreSQL service automatically and runs
+both test layers on every validation run.
 
 ## Git commits and Husky
 
