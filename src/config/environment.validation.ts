@@ -20,4 +20,6 @@ export const environmentValidationSchema = Joi.object({
     .optional(),
 
   JWT_SECRET: Joi.string().min(32).required(),
+
+  CORS_ORIGIN: Joi.string().uri().required(),
 });
