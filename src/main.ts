@@ -8,8 +8,15 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
 
+  const corsOrigins = configService
+    .getOrThrow<string>('CORS_ORIGINS')
+    .split(',')
+    .map((origin) => origin.trim())
+    .filter(Boolean)
+    .map((origin) => new URL(origin).origin);
+
   app.enableCors({
-    origin: configService.getOrThrow<string>('CORS_ORIGIN'),
+    origin: corsOrigins,
   });
 
   app.enableShutdownHooks();

@@ -219,7 +219,7 @@ NODE_ENV=development
 PORT=3000
 DATABASE_URL=postgresql://interview_lab:interview_lab_dev@localhost:5432/interview_lab
 JWT_SECRET=replace-this-with-a-random-secret-of-at-least-32-characters
-CORS_ORIGIN=http://localhost:5173
+CORS_ORIGINS=http://localhost:5173
 ```
 
 Generate a suitable local JWT secret with:
@@ -230,6 +230,13 @@ openssl rand -base64 48
 
 The optional `TEST_DATABASE_URL` is only required for tests that connect to a
 separate PostgreSQL test database.
+
+`CORS_ORIGINS` accepts a comma-separated list. To allow both local development
+and the deployed frontend:
+
+```dotenv
+CORS_ORIGINS=http://localhost:5173,https://interview-lab-web.onrender.com
+```
 
 ### Start PostgreSQL and pgAdmin
 
@@ -379,7 +386,7 @@ docker run --rm \
   --env PORT=3000 \
   --env DATABASE_URL=postgresql://interview_lab:interview_lab_dev@postgres:5432/interview_lab \
   --env JWT_SECRET=replace-this-with-a-random-secret-of-at-least-32-characters \
-  --env CORS_ORIGIN=http://localhost:5173 \
+  --env CORS_ORIGINS=http://localhost:5173 \
   interview-lab-api:local
 ```
 
