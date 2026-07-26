@@ -309,6 +309,33 @@ To roll back the latest migration batch:
 npm run migration:rollback
 ```
 
+### Load demo data
+
+After running the migrations, populate the local database with repeatable demo
+data:
+
+```bash
+npm run seed:run
+```
+
+The demo seed creates:
+
+- 1 demo user
+- 10 candidates
+- 35 interviews: 24 completed, 8 scheduled, and 3 cancelled
+- 24 feedback records, one for each completed interview
+
+Sign in with:
+
+```text
+Email: demo@interviewlab.com
+Password: Password123!
+```
+
+The seed uses fixed identifiers and removes only its previous demo records, so
+it can safely be run again without duplicating data. It refuses to run when
+`NODE_ENV` is `production`.
+
 ### Start the API
 
 Start development watch mode:
