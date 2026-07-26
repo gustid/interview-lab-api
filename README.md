@@ -155,6 +155,9 @@ Stores candidate information and ownership through `created_by`.
   candidate email while one user cannot create it twice.
 - `(created_by, last_name, first_name)` supports owner-scoped alphabetical
   candidate lists.
+- `resume_url` is a nullable column reserved for a future candidate résumé
+  upload feature. The current API does not upload or serve résumé files and
+  currently leaves this column as `NULL`.
 
 ### `interviews`
 
@@ -179,6 +182,34 @@ Stores one structured feedback record per completed interview.
 - Recommendation is `STRONG_HIRE`, `HIRE`, `MIXED`, `NO_HIRE`, or
   `STRONG_NO_HIRE`.
 - Feedback is deleted when its interview is deleted.
+
+### Planned résumé storage
+
+Résumé files should be stored in object storage rather than inside PostgreSQL
+or the API container. PostgreSQL should contain only the file reference and
+metadata, such as the candidate ID, original filename, content type, size, and
+object key.
+
+The existing `resume_url` column can hold a stable object URL for a simple
+implementation. For private files, a future migration should preferably rename
+it to `resume_object_key`. The API would verify candidate ownership and then
+return a short-lived signed download URL. Expiring signed URLs themselves
+should not be stored in the database.
+
+A future upload flow would be:
+
+1. The authenticated user selects a résumé, initially limited to PDF.
+2. The API verifies ownership, file size, extension, and actual content type.
+3. The file is uploaded to S3-compatible object storage.
+4. PostgreSQL stores the object key and file metadata.
+5. Downloads require authorization and use short-lived signed URLs.
+6. Replacing or deleting a résumé also removes the old object from storage.
+
+The application should not write uploads to the Render service filesystem.
+Render services use an ephemeral filesystem by default, so files can disappear
+on a restart or deployment. Render persistent disks require a paid service and
+also couple uploads to one service instance, making object storage the cleaner
+scalable design.
 
 ## Local setup
 
