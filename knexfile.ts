@@ -30,8 +30,8 @@ const config: Record<string, Knex.Config> = {
     client: 'pg',
     connection: process.env.DATABASE_URL,
     migrations: {
-      directory: './dist/database/migrations',
-      extension: 'js',
+      directory: './dist/src/database/migrations',
+      loadExtensions: ['.js'],
       tableName: 'knex_migrations',
     },
   },
