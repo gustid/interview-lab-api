@@ -6,9 +6,17 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: backend-production
+  cancel-in-progress: false
+
 jobs:
+  validate:
+    uses: ./.github/workflows/validate.yml
+
   migrate:
     name: Run production migrations
+    needs: validate
     runs-on: ubuntu-latest
 
     steps:
@@ -32,3 +40,17 @@ jobs:
         env:
           NODE_ENV: production
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+  deploy:
+    name: Deploy backend to Render
+    needs: migrate
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Trigger Render deployment
+        env:
+          RENDER_DEPLOY_HOOK_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+        run: |
+          curl --fail --silent --show-error \
+            --request POST \
+            "$RENDER_DEPLOY_HOOK_URL"
