@@ -177,7 +177,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"firstName\": \"Jane\",\n  \"lastName\": \"Doe\",\n  \"email\": \"jane.doe.{{$timestamp}}@example.com\",\n  \"role\": \"Senior Backend Engineer\",\n  \"notes\": \"Preparing for a staff-level role\"\n}",
+              "raw": "{\n  \"firstName\": \"Jane\",\n  \"lastName\": \"Doe\",\n  \"email\": \"jane.doe.{{$timestamp}}@example.com\",\n  \"currentRole\": \"Senior Backend Engineer\",\n  \"targetRole\": \"Staff Backend Engineer\",\n  \"notes\": \"Preparing for a staff-level role\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -211,13 +211,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api/candidates?page=1&pageSize=20",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "candidates"
-              ],
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "candidates"],
               "query": [
                 {
                   "key": "page",
@@ -283,7 +278,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"firstName\": \"Jane\",\n  \"lastName\": \"Doe\",\n  \"email\": \"jane.updated.{{$timestamp}}@example.com\",\n  \"role\": \"Staff Backend Engineer\",\n  \"notes\": \"Candidate details updated through PUT\"\n}",
+              "raw": "{\n  \"firstName\": \"Jane\",\n  \"lastName\": \"Doe\",\n  \"email\": \"jane.updated.{{$timestamp}}@example.com\",\n  \"currentRole\": \"Staff Backend Engineer\",\n  \"targetRole\": \"Principal Backend Engineer\",\n  \"notes\": \"Candidate details updated through PUT\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -301,7 +296,8 @@
                 "exec": [
                   "pm.test('Candidate updated', function () {",
                   "  pm.response.to.have.status(200);",
-                  "  pm.expect(pm.response.json().role).to.eql('Staff Backend Engineer');",
+                  "  pm.expect(pm.response.json().currentRole).to.eql('Staff Backend Engineer');",
+                  "  pm.expect(pm.response.json().targetRole).to.eql('Principal Backend Engineer');",
                   "});"
                 ]
               }
@@ -359,13 +355,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api/interviews?page=1&pageSize=20",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "interviews"
-              ],
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "interviews"],
               "query": [
                 {
                   "key": "page",

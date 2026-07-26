@@ -4,7 +4,8 @@ export interface CandidateRecord {
   first_name: string;
   last_name: string;
   email: string;
-  role: string | null;
+  current_role: string | null;
+  target_role: string | null;
   resume_url: string | null;
   notes: string | null;
   created_at: Date;
@@ -16,7 +17,8 @@ export interface CreateCandidateRecord {
   first_name: string;
   last_name: string;
   email: string;
-  role: string | null;
+  current_role: string | null;
+  target_role: string | null;
   resume_url: string | null;
   notes: string | null;
 }
@@ -25,7 +27,8 @@ export interface UpdateCandidateRecord {
   first_name?: string;
   last_name?: string;
   email?: string;
-  role?: string | null;
+  current_role?: string | null;
+  target_role?: string | null;
   notes?: string | null;
   resume_url?: string | null;
 }
@@ -35,7 +38,8 @@ export interface CandidateResponse {
   firstName: string;
   lastName: string;
   email: string;
-  role: string | null;
+  currentRole: string | null;
+  targetRole: string | null;
   resumeUrl: string | null;
   notes: string | null;
   createdAt: Date;

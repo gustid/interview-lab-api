@@ -22,7 +22,12 @@ export class CreateCandidateDto {
   @IsOptional()
   @IsString()
   @MaxLength(150)
-  role?: string;
+  currentRole?: string;
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(150)
+  targetRole?: string;
 
   @IsOptional()
   @IsString()
