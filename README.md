@@ -9,6 +9,7 @@ completion, and structured feedback.
 - API: https://interview-lab-api.onrender.com
 - Swagger UI: https://interview-lab-api.onrender.com/api/docs
 - OpenAPI JSON: https://interview-lab-api.onrender.com/api/docs-json
+- [Architecture overview](docs/architecture.md)
 
 The API runs on a free Render web service, so the first request after a period
 of inactivity may take longer while the service starts.
@@ -76,6 +77,26 @@ Controller → Service → Repository → Knex → PostgreSQL
 
 The API is stateless. Application state is stored in PostgreSQL, so additional
 API instances could be added later without moving in-memory session data.
+
+## Design decisions
+
+- **Modular monolith:** preserves clear feature boundaries without the
+  operational cost of microservices.
+- **REST and OpenAPI:** fit the resource-oriented workflow and keep the API
+  independently discoverable.
+- **PostgreSQL:** provides relational integrity, filtering, indexing, and
+  reporting aggregates.
+- **Knex:** keeps SQL behavior visible while providing parameterized queries
+  and versioned migrations.
+- **Two repositories:** allow independent frontend and backend build and
+  deployment lifecycles.
+- **Explicit production migrations:** avoid multiple API instances attempting
+  schema changes during startup.
+- **JWT authentication:** keeps the MVP small; secure HttpOnly cookies and
+  refresh-token rotation are documented future improvements.
+
+The complete rationale and tradeoffs are described in the
+[architecture overview](docs/architecture.md).
 
 ## Database schema
 
@@ -498,6 +519,16 @@ Compose network.
 Migrations are intentionally not executed when the container starts. Run them
 explicitly as a deployment operation to prevent multiple application
 instances from attempting the same migration concurrently.
+
+## Known limitations and future improvements
+
+- Expand search across candidates, interviews, technologies, and feedback.
+- Add activity and score trends to reporting.
+- Move browser authentication from `localStorage` to secure HttpOnly cookies
+  with refresh-token rotation.
+- Add password recovery and email verification.
+- Add private résumé uploads backed by object storage and signed URLs.
+- Add responsive tablet and mobile layouts.
 
 ## Deployment
 
